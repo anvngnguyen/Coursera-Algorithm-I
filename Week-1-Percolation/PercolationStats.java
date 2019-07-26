@@ -16,7 +16,8 @@ public class PercolationStats {
     private final double stddev;
 
     /**
-     * Perform independent trials on an n-by-n grid
+     * Perform independent trials on an n-by-n grid. After performing all trials, calculating the
+     * average and standard deviation of number of sites needed to be opened
      *
      * @param n      Size of the grid
      * @param trials Number of trials needed to be performed on the grid size n
