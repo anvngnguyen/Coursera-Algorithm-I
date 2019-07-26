@@ -9,10 +9,11 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
+    private static final double ZSTAR = 1.96;
     private final double[] trialStats;
     private final int gridSize;
-    private double mean;
-    private double stddev;
+    private final double mean;
+    private final double stddev;
 
     /**
      * Perform independent trials on an n-by-n grid
@@ -23,12 +24,16 @@ public class PercolationStats {
      */
     public PercolationStats(int n, int trials) {
         if (n <= 0 || trials <= 0)
-            throw new IllegalArgumentException("Argument(s) cannot be less than or equal to 0");
+            throw new IllegalArgumentException(
+                    "PercolationStats.PercolationStats(): Argument(s) cannot be 0 or smaller");
 
         gridSize = n;
         trialStats = new double[trials];
         for (int i = 0; i < trials; i++)
             runTrial(i);
+
+        mean = StdStats.mean(trialStats) / (gridSize * gridSize);
+        stddev = StdStats.stddev(trialStats) / (gridSize * gridSize);
     }
 
     /**
@@ -57,26 +62,20 @@ public class PercolationStats {
     }
 
     /**
-     * Sample mean of percolation threshold. To prevent multiple calls of the method, the result is
-     * stored in a variable declared at the begining. That case, we only have to calculate the mean
-     * once
+     * Sample mean of percolation threshold.
      *
      * @return Average number of sites needed to be opened in every trials
      */
     public double mean() {
-        mean = StdStats.mean(trialStats) / (gridSize * gridSize);
         return mean;
     }
 
     /**
-     * Sample standard deviation of percolation thresholdTo prevent multiple calls of the method,
-     * the result is stored in a variable declared at the begining. That case, we only have to
-     * calculate the standard deviation once
+     * Sample standard deviation of percolation threshold.
      *
      * @return Standard deviation of number of sites needed to be opened in every trials
      */
     public double stddev() {
-        stddev = StdStats.stddev(trialStats) / (gridSize * gridSize);
         return stddev;
     }
 
@@ -86,7 +85,7 @@ public class PercolationStats {
      * @return Low endpoint of 95% confidence interval
      */
     public double confidenceLo() {
-        return mean - 1.96 * stddev / Math.sqrt(trialStats.length);
+        return mean - ZSTAR * stddev / Math.sqrt(trialStats.length);
     }
 
     /**
@@ -95,7 +94,7 @@ public class PercolationStats {
      * @return High endpoint of 95% confidence interval
      */
     public double confidenceHi() {
-        return mean + 1.96 * stddev / Math.sqrt(trialStats.length);
+        return mean + ZSTAR * stddev / Math.sqrt(trialStats.length);
     }
 
     /**
@@ -103,14 +102,15 @@ public class PercolationStats {
      */
     public static void main(String[] args) {
         // This is supposed to be working but it does not. For explanation, see below.
-        // int n = Integer.parseInt(args[0]);
-        // int trials = Integer.parseInt(args[1]);
+        // Only uncomment when submit to Coursera
+        int n = Integer.parseInt(args[0]);
+        int trials = Integer.parseInt(args[1]);
 
         // For some dumb reason, when run in Terminal, Java compiler could not find Percolation
         // class so I cannot use terminal to enter args. At the same time, a regular Run through
         // IntelliJ does not allow entering args manually.
-        int n = 200;
-        int trials = 100;
+        // int n = 200;
+        // int trials = 100;
 
         PercolationStats ps = new PercolationStats(n, trials);
         System.out.println("Mean = " + ps.mean());
