@@ -17,14 +17,13 @@ public class PercolationStats {
     /**
      * Perform independent trials on an n-by-n grid
      *
-     * @param n      size of the grid
-     * @param trials number of trials needed to be performed on the grid size n
+     * @param n      Size of the grid
+     * @param trials Number of trials needed to be performed on the grid size n
      * @throws IllegalArgumentException if either n or trials is less than or equal to 0
      */
     public PercolationStats(int n, int trials) {
-        if (n <= 0 || trials <= 0) {
+        if (n <= 0 || trials <= 0)
             throw new IllegalArgumentException("Argument(s) cannot be less than or equal to 0");
-        }
 
         gridSize = n;
         trialStats = new double[trials];
@@ -36,16 +35,25 @@ public class PercolationStats {
      * Run an individual trial. For every trial, open a Grid with given size and keep opening a site
      * until the Grid percolates. At the end, calculate the number of sites needed to be opened
      *
-     * @param i the ith trial
+     * @param i ith trial
      */
     private void runTrial(int i) {
         Percolation p = new Percolation(gridSize);
-        while (!p.percolates()) {
-            int[] siteToOpen = { StdRandom.uniform(gridSize) + 1, StdRandom.uniform(gridSize) + 1 };
-            if (!p.isOpen(siteToOpen[0], siteToOpen[1]))
-                p.open(siteToOpen[0], siteToOpen[1]);
-        }
+        while (!p.percolates())
+            openSite(p);
         trialStats[i] = p.numberOfOpenSites();
+    }
+
+    /**
+     * Open a site in the Grid. Randomly generate the row and column index using StdRandom uniform.
+     * If the site at that row and column has not been opened, open it.
+     *
+     * @param p Percolation Grid
+     */
+    private void openSite(Percolation p) {
+        int[] siteToOpen = { StdRandom.uniform(gridSize) + 1, StdRandom.uniform(gridSize) + 1 };
+        if (!p.isOpen(siteToOpen[0], siteToOpen[1]))
+            p.open(siteToOpen[0], siteToOpen[1]);
     }
 
     /**
@@ -53,7 +61,7 @@ public class PercolationStats {
      * stored in a variable declared at the begining. That case, we only have to calculate the mean
      * once
      *
-     * @return the average number of sites needed to be opened in every trials
+     * @return Average number of sites needed to be opened in every trials
      */
     public double mean() {
         mean = StdStats.mean(trialStats) / (gridSize * gridSize);
@@ -65,7 +73,7 @@ public class PercolationStats {
      * the result is stored in a variable declared at the begining. That case, we only have to
      * calculate the standard deviation once
      *
-     * @return the standard deviation of number of sites needed to be opened in every trials
+     * @return Standard deviation of number of sites needed to be opened in every trials
      */
     public double stddev() {
         stddev = StdStats.stddev(trialStats) / (gridSize * gridSize);
@@ -75,7 +83,7 @@ public class PercolationStats {
     /**
      * Low endpoint of 95% confidence interval
      *
-     * @return the low endpoint of 95% confidence interval
+     * @return Low endpoint of 95% confidence interval
      */
     public double confidenceLo() {
         return mean - 1.96 * stddev / Math.sqrt(trialStats.length);
@@ -84,7 +92,7 @@ public class PercolationStats {
     /**
      * High endpoint of 95% confidence interval
      *
-     * @return the high endpoint of 95% confidence interval
+     * @return High endpoint of 95% confidence interval
      */
     public double confidenceHi() {
         return mean + 1.96 * stddev / Math.sqrt(trialStats.length);
