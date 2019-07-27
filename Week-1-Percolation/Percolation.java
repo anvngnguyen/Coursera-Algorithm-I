@@ -147,7 +147,7 @@ public class Percolation {
         System.out.println(p.grid[0][0]);
         System.out.println(p.percolates());
 
-        System.out.println("full1: " + p.isFull(1, 1));
+        System.out.println("full: " + p.isFull(1, 1));
         p.open(1, 1);
 
         System.out.println("percolates1: " + p.percolates());
