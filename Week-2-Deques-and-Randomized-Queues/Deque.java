@@ -39,13 +39,10 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     /**
-     * Add the item to the front of the deque.
-     * 1. If the item is null, throw an IllegalArgumentException
-     * 2. Create newNode that will contain the item
-     * 3. If the deque is empty, set first and last node to newNode. Otherwise, set newNode.next equals to first and
-     * first.previous to newNode. Then set first equals to newNode and essentially make newNode the first node of the
-     * deque
-     * 5. Increment the size of the deque by 1
+     * Add the item to the front of the deque. If the item is null, throw an IllegalArgumentException. Create newNode
+     * that will contain the item. If the deque is empty, set first and last node to newNode. Otherwise, set
+     * newNode.next equals to first and first.previous to newNode. Then set first equals to newNode and essentially make
+     * newNode the first node of the deque. Increment the size of the deque by 1
      *
      * @param item needed to be added to the front of the deque
      * @throws IllegalArgumentException if item is null
@@ -72,12 +69,10 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     /**
-     * Add the item to the back of the deque.
-     * 1. If the item is null, throw an IllegalArgumentException
-     * 2. Create newNode that will contain the item
-     * 3. If the deque is empty, set first and last node to newNode. Otherwise, set newNode.previous equals to last and
-     * last.next to newNode. Then set last equals to newNode and essentially make newNode the last node of the deque
-     * 4. Increment the size of the deque by 1
+     * Add the item to the back of the deque. If the item is null, throw an IllegalArgumentException. Create newNode
+     * that will contain the item. If the deque is empty, set first and last node to newNode. Otherwise, set
+     * newNode.previous equals to last and last.next to newNode. Then set last equals to newNode and essentially make
+     * newNode the last node of the deque. Increment the size of the deque by 1
      *
      * @param item needed to be added to the back of the deque
      * @throws IllegalArgumentException if item is null
@@ -104,13 +99,11 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     /**
-     * Remove and return the first item in the deque
-     * 1. If the deque is empty, throw a NoSuchElementException
-     * 2. Retrieve item from the first node of the deque
-     * 3. Decrement the size of the deque by 1
-     * 4. If the deque is empty as the result, set first and last to null. Otherwise, set first.next.previous equals to
-     * null and then set first equals to first.next, essentially remove the first node from the deque. In both cases,
-     * let Garbage Collector handles the rest
+     * Remove and return the first item in the deque. If the deque is empty, throw a NoSuchElementException. Retrieve
+     * item from the first node of the deque. Decrement the size of the deque by 1. If the deque is empty as the
+     * result, set first and last to null. Otherwise, set first.next.previous equals to null and then set first
+     * equals to first.next, essentially remove the first node from the deque. In both cases, let Garbage Collector
+     * handles the rest
      *
      * @return first item of the deque
      * @throws NoSuchElementException if the deque is empty
@@ -134,13 +127,11 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     /**
-     * Remove and return the last item in the deque
-     * 1. If the deque is empty, throw a NoSuchElementException
-     * 2. Retrieve item from the last node of the deque
-     * 3. Decrement the size of the deque by 1
-     * 4. If the deque is empty as the result, set first and last to null. Otherwise, set last.previous.next equals to
-     * null and then set last equals to last.previous, essentially remove the last node from the deque. In both cases,
-     * let Garbage Collector handles the rest
+     * Remove and return the last item in the deque. If the deque is empty, throw a NoSuchElementException. Retrieve
+     * item from the last node of the deque. Decrement the size of the deque by 1. If the deque is empty as the
+     * result, set first and last to null. Otherwise, set last.previous.next equals to null and then set last equals
+     * to last.previous, essentially remove the last node from the deque. In both cases, let Garbage Collector
+     * handles the rest
      *
      * @return last item of the deque
      * @throws NoSuchElementException if the deque is empty
@@ -180,7 +171,7 @@ public class Deque<Item> implements Iterable<Item> {
 
         public Item next() {
             if (!hasNext())
-                throw new NoSuchElementException("Deque.Iterator.next(): Deque is empty!");
+                throw new NoSuchElementException("Deque.Iterator.next(): There is no more element to return!");
             Item item = current.item;
             current = current.next;
             return item;
@@ -220,16 +211,19 @@ public class Deque<Item> implements Iterable<Item> {
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing addFirst(): add 1-5 to the deque. The size of the deque should be 5");
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 5; i++) {
             deque.addFirst(i);
-        assert deque.size() == 5;
+            System.out.println("Added " + i + " to the queue");
+        }
         System.out.print("Deque: ");
         for (Integer i : deque)
             System.out.print(i + "->");
         System.out.println();
+        System.out.println("Size of the queue: " + deque.size());
         System.out.println("-----------------------------------------------------------------------------------------");
 
-        System.out.println("Testing removeFirst(): remove every item from the deque using removeFirst()");
+        System.out.println("Testing removeFirst(): remove every item from the deque using removeFirst(). The size of " +
+                "the queue should now be 0");
         while (!deque.isEmpty()) {
             temp = deque.removeFirst();
             System.out.println("Remove " + temp + " from deque");
@@ -238,6 +232,7 @@ public class Deque<Item> implements Iterable<Item> {
                 System.out.print(i + "->");
             System.out.println();
         }
+        System.out.println("Size of the queue: " + deque.size());
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing removeFirst(): remove from an empty deque. Should throw a NoSuchElementException");
@@ -257,16 +252,19 @@ public class Deque<Item> implements Iterable<Item> {
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing addLast(): add 1-5 to the deque. The size of the deque should be 5");
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i <= 5; i++) {
             deque.addLast(i);
-        assert deque.size() == 5;
+            System.out.println("Added " + i + " to the queue");
+        }
         System.out.print("Deque: ");
         for (Integer i : deque)
             System.out.print(i + "->");
         System.out.println();
+        System.out.println("Size of the queue: " + deque.size());
         System.out.println("-----------------------------------------------------------------------------------------");
 
-        System.out.println("Testing removeLast(): remove every item from the deque using removeLast()");
+        System.out.println("Testing removeLast(): remove every item from the deque using removeLast(). The size of " +
+                "the queue should now be 0");
         while (!deque.isEmpty()) {
             temp = deque.removeLast();
             System.out.println("Remove " + temp + " from deque");
@@ -275,6 +273,7 @@ public class Deque<Item> implements Iterable<Item> {
                 System.out.print(i + "->");
             System.out.println();
         }
+        System.out.println("Size of the queue: " + deque.size());
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing removeLast(): remove from an empty deque. Should throw a NoSuchElementException");
@@ -285,5 +284,4 @@ public class Deque<Item> implements Iterable<Item> {
         }
         System.out.println("-----------------------------------------------------------------------------------------");
     }
-
 }
