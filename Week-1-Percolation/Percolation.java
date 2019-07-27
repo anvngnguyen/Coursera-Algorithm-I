@@ -1,9 +1,3 @@
-/* *****************************************************************************
- *  Name:
- *  Date:
- *  Description:
- **************************************************************************** */
-
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -80,9 +74,9 @@ public class Percolation {
      */
     private void unionSiteWithNeighbor(int row, int i, int col, int j) {
         uf1.union(gridToUfCoordinate(row, col),
-                  gridToUfCoordinate(row + i, col + j));
+                gridToUfCoordinate(row + i, col + j));
         uf2.union(gridToUfCoordinate(row, col),
-                  gridToUfCoordinate(row + i, col + j));
+                gridToUfCoordinate(row + i, col + j));
     }
 
     /**
@@ -97,7 +91,7 @@ public class Percolation {
     }
 
     /**
-     * Given a sites's row and column, check to see if that site is open
+     * Given a site's row and column, check to see if that site is open
      *
      * @param row Row index of site needed to be checked if open
      * @param col Col index of site needed to be checked if open
@@ -111,7 +105,7 @@ public class Percolation {
     }
 
     /**
-     * Given a sites's row and column, check to see if that site is open and is connected to the top
+     * Given a site's row and column, check to see if that site is open and is connected to the top
      * row
      *
      * @param row Row index of site needed to be checked for fullness
@@ -170,4 +164,3 @@ public class Percolation {
         System.out.println(p.isFull(1, 1));
     }
 }
-
