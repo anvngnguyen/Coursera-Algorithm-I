@@ -40,7 +40,6 @@ public class PointSET {
     public void insert(Point2D p) {
         if (p == null)
             throw new IllegalArgumentException("PointSET.insert(): Argument cannot be null!");
-
         treeSet.add(p);
     }
 
@@ -53,7 +52,6 @@ public class PointSET {
     public boolean contains(Point2D p) {
         if (p == null)
             throw new IllegalArgumentException("PointSET.contains(): Argument cannot be null!");
-
         return treeSet.contains(p);
     }
 
@@ -64,8 +62,6 @@ public class PointSET {
         for (Point2D p : treeSet)
             p.draw();
     }
-
-    // all points that are inside the rectangle (or on the boundary)
 
     /**
      * Find any point that lies within or on the given rectangle by checking if said rectangle contains any of the
@@ -102,7 +98,7 @@ public class PointSET {
         double minDistance = Double.POSITIVE_INFINITY;
         double distance;
         for (Point2D point : treeSet) {
-            distance = point.distanceTo(p);
+            distance = point.distanceSquaredTo(p);
             if (distance < minDistance) {
                 nearestNeighbor = point;
                 minDistance = distance;
@@ -119,6 +115,8 @@ public class PointSET {
      */
     public static void main(String[] args) {
         PointSET pointSET = new PointSET();
+        Point2D point1 = new Point2D(2, 4);
+        Point2D neighbor = new Point2D(1, 0);
 
         System.out.println("Testing size(): An empty set should have a size of 0");
         System.out.println(pointSET.size());
@@ -128,8 +126,11 @@ public class PointSET {
         System.out.println(pointSET.isEmpty());
         System.out.println("-----------------------------------------------------------------------------------------");
 
+        System.out.println("Testing contains(): An empty set should return false");
+        System.out.println(pointSET.contains(neighbor));
+        System.out.println("-----------------------------------------------------------------------------------------");
+
         System.out.println("Testing nearest(): An empty set should return null");
-        Point2D neighbor = new Point2D(1, 0);
         System.out.println(pointSET.nearest(neighbor));
         System.out.println("-----------------------------------------------------------------------------------------");
 
@@ -140,13 +141,16 @@ public class PointSET {
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing size(): After adding 1 Point2D to Set, it should have the size of 1");
-        Point2D point1 = new Point2D(2, 4);
         pointSET.insert(point1);
         System.out.println(pointSET.size());
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing isEmpty(): After adding point1 to Set, it should no longer be empty");
         System.out.println(pointSET.isEmpty());
+        System.out.println("-----------------------------------------------------------------------------------------");
+
+        System.out.println("Testing contains(): After adding point1 to Set, it should contains point1");
+        System.out.println(pointSET.contains(point1));
         System.out.println("-----------------------------------------------------------------------------------------");
 
         System.out.println("Testing nearest(): After adding point1 to Set, the nearest neighbor of neighbor within " +
@@ -168,6 +172,15 @@ public class PointSET {
         pointSET.insert(point4);
         pointSET.insert(neighbor);
 
+        System.out.println("Testing nearest(): After adding adding several points to the set, it should contain every" +
+                " one of them");
+        System.out.println(pointSET.contains(point1));
+        System.out.println(pointSET.contains(point2));
+        System.out.println(pointSET.contains(point3));
+        System.out.println(pointSET.contains(point4));
+        System.out.println(pointSET.contains(neighbor));
+        System.out.println("-----------------------------------------------------------------------------------------");
+
         System.out.println("Testing nearest(): After adding several points to the set (including the neighbor itself)" +
                 ", the nearest neighbor of neighbor within the tree should be neighbor");
         System.out.println(pointSET.nearest(neighbor));
@@ -178,6 +191,5 @@ public class PointSET {
         for (Point2D p : pointSET.range(rectangle))
             System.out.println(p);
         System.out.println("-----------------------------------------------------------------------------------------");
-
     }
 }
